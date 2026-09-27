@@ -6,9 +6,9 @@ supervised by **Dr. Snehlata Barde**.
 
 **Demo video:** https://youtu.be/ApXYeB1IJUY
 
-This repository actually contains **two distinct research studies** that share
-a topic but not a dataset or a method. They are kept separate throughout —
-never averaged or merged into one set of numbers.
+This repository's code actually spans **two distinct research studies** that
+share a topic but not a dataset or a method. They are kept separate
+throughout — never averaged or merged into one set of numbers.
 
 | | Study A | Study B |
 |---|---|---|
@@ -22,37 +22,35 @@ never averaged or merged into one set of numbers.
 ## Repository structure
 
 ```
-01_Model/           Trained model artifacts (weights excluded from git — see below)
 02_Experiments/     Scratch experiment notes
 03_Project/         Source code: preprocessing, training, evaluation scripts
   ├─ src/           Core pipeline (preprocess, classical_ml, train_muril, train_ann, ...)
   ├─ scripts/       Data audit / translation / validation utilities
   └─ data/          processed/ (tweet train/val/test splits) is tracked;
                      raw/ and processed_ann/ are not (too large — see below)
-04_GUI/              Flask web application (app/main.py, templates, static)
-05_Manuscript/       Paper drafts, DRC progress reports, and presentation decks
+04_GUI/              Flask web application (main.py, templates, static)
 06_Results/          Metrics (JSON/CSV), comparison charts, small model artifacts
-07_Archive/          Earlier exploratory notebooks
 ```
+
+This is a **code-and-results repository**: trained model weights, presentation
+decks, and paper drafts are kept locally rather than published here.
 
 ## What's *not* in this repo, and why
 
-Every training run kept every intermediate checkpoint. `01_Model/` alone is
-**73GB** on disk — GitHub hard-caps individual files at 100MB, so committing
-model weights isn't just impractical, it's impossible without a separate
-large-file storage solution. Excluded (see `.gitignore`):
-
-- All `**/checkpoints/` directories and `*.safetensors` / `*.bin` / `*.pt` weight files
+- Model weights and checkpoints — every training run kept every intermediate
+  checkpoint; the full set is 73GB on disk, and GitHub hard-caps individual
+  files at 100MB, so publishing them isn't practical without separate
+  large-file hosting.
 - The two ~413MB Random Forest `.joblib` files (unbounded tree depth over a
-  20k-feature TF-IDF matrix makes even a "classical" model huge here)
+  20k-feature TF-IDF matrix makes even a "classical" model huge here).
 - `03_Project/data/raw/` (240MB, includes a 238MB English translation dataset)
-- `03_Project/data/processed_ann/` (163MB, Sentiment140-derived training data)
-- `indic_nlp_resources/` and `.venv/` (third-party / environment, not project code)
+  and `03_Project/data/processed_ann/` (163MB, Sentiment140-derived data).
+- Manuscripts, DRC progress reports, and presentation decks — kept as private
+  working documents, not published in this code repository.
+- `indic_nlp_resources/` and `.venv/` (third-party / environment, not project code).
 
-Everything excluded is **regeneratable** by re-running the scripts below against
-the tracked source data. The small, git-friendly classical models (Naive Bayes,
-Logistic Regression, SVM, Gradient Boosting, the TF-IDF vectorizer) and every
-transformer's small config/tokenizer files *are* tracked.
+Everything excluded is **regeneratable** by re-running the scripts below
+against the tracked source data and code.
 
 ## Setup
 
@@ -82,9 +80,11 @@ python src/compare_results.py
 
 ## Reproducing Study B (frozen-representation probing)
 
-See `05_Manuscript/Manish_Joshi.docx` for the full experimental protocol
-(11 feature sets × 4 tasks, 10×5-fold resampled evaluation, Nadeau–Bengio and
-Holm–Bonferroni correction).
+Study B follows an 11-feature-set × 4-task frozen-probing protocol (4 encoders
+× 2 pooling strategies + 3 lexical baselines), evaluated with 10×5-fold
+resampled cross-validation and Nadeau–Bengio / Holm–Bonferroni correction.
+The full experimental writeup is kept in the accompanying paper draft
+(not included in this code repository).
 
 ## Running the web app
 
@@ -100,14 +100,13 @@ one-click LIME explanations.
 ## Headline results
 
 **Study A** — best native 3-class result: fine-tuned IndicBERT v2 ("My Model")
-at 75.3% test accuracy, narrowly ahead of MuRIL (74.75%).
+at 75.3% test accuracy, narrowly ahead of MuRIL (74.75%). Full metrics in
+`06_Results/`.
 
 **Study B** — IndicBERT v2 (frozen, mean-pooled) + Logistic Regression reaches
 0.9130 macro F1 on translated product reviews; on native movie reviews, no
 frozen encoder is statistically distinguishable from character n-grams
 (p = 0.4626 after correction).
-
-Full results, methodology, and discussion are in `05_Manuscript/`.
 
 ## Supervisor
 

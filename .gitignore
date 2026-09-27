@@ -11,6 +11,11 @@ env/
 # Third-party cloned resource (clone separately - see README)
 indic_nlp_resources/
 
+# Not part of the public code repo - kept locally only
+01_Model/
+05_Manuscript/
+07_Archive/
+
 # Model training checkpoints and weight files - far too large for git.
 # Regenerate by re-running the training scripts in 03_Project/src/.
 **/checkpoints/
