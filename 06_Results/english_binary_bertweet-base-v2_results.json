@@ -1,0 +1,46 @@
+{
+  "model_name": "vinai/bertweet-base",
+  "task": "binary English sentiment (Sentiment140)",
+  "test_accuracy": 0.88155,
+  "test_report": {
+    "negative": {
+      "precision": 0.8838917396116309,
+      "recall": 0.8785,
+      "f1-score": 0.881187622247856,
+      "support": 10000.0
+    },
+    "positive": {
+      "precision": 0.8792366563959845,
+      "recall": 0.8846,
+      "f1-score": 0.8819101739693933,
+      "support": 10000.0
+    },
+    "accuracy": 0.88155,
+    "macro avg": {
+      "precision": 0.8815641980038077,
+      "recall": 0.8815500000000001,
+      "f1-score": 0.8815488981086246,
+      "support": 20000.0
+    },
+    "weighted avg": {
+      "precision": 0.8815641980038076,
+      "recall": 0.88155,
+      "f1-score": 0.8815488981086248,
+      "support": 20000.0
+    }
+  },
+  "test_confusion_matrix": [
+    [
+      8785,
+      1215
+    ],
+    [
+      1154,
+      8846
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "negative",
+    "positive"
+  ]
+}

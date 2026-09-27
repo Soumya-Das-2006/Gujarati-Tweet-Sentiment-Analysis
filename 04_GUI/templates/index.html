@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gujarati Sentiment - 4 Model Comparison</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page">
+        <div class="card">
+            <h1>Gujarati Tweet Sentiment - 4 Model Comparison</h1>
+            <p class="subtitle">Enter a Gujarati tweet. Every model runs on real, measured accuracy - nothing here is hardcoded.</p>
+
+            <label class="field-label" for="model_select">Model</label>
+            <select id="model_select">
+                <option value="all">&#9889; Run All 4 Models</option>
+                {% for m in models %}
+                <option value="{{ m.key }}" {% if not m.loaded %}disabled{% endif %}>
+                    {{ m.name }} ({{ m.accuracy }}){% if not m.loaded %} - not available{% endif %}
+                </option>
+                {% endfor %}
+            </select>
+
+            <textarea id="text" placeholder="અહીં ગુજરાતી ટ્વીટ લખો..."></textarea>
+
+            {% if examples %}
+            <div class="examples-row">
+                <span class="field-label">Try an example:</span>
+                {% for ex in examples %}
+                <button type="button" class="chip chip-{{ ex.sentiment }}" data-idx="{{ loop.index0 }}">{{ ex.sentiment | capitalize }}</button>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="button-row">
+                <button id="predict-btn" class="primary-btn">Predict</button>
+            </div>
+
+            <div id="translation-card" class="translation-card" hidden>
+                <div class="translation-label">English Translation <span id="translation-time"></span></div>
+                <div id="translation-text" class="translation-text"></div>
+            </div>
+
+            <div id="results-grid" class="results-grid"></div>
+        </div>
+
+        <div class="card legend-card">
+            <div class="field-label">Models in this comparison</div>
+            {% for m in models %}
+            <div class="legend-row">
+                <span class="legend-name">{{ m.name }}</span>
+                <span class="legend-badge">{{ m.accuracy }}</span>
+                <span class="legend-dataset">{{ m.dataset }}</span>
+                <span class="legend-classes">{{ m.classes | join(' / ') }}</span>
+                {% if not m.loaded %}<span class="legend-missing">not loaded</span>{% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        const EXAMPLES = {{ examples | tojson }};
+        const MODELS = {{ models | tojson }};
+
+        const modelSelect = document.getElementById('model_select');
+        const textArea = document.getElementById('text');
+        const predictBtn = document.getElementById('predict-btn');
+        const translationCard = document.getElementById('translation-card');
+        const translationText = document.getElementById('translation-text');
+        const translationTime = document.getElementById('translation-time');
+        const resultsGrid = document.getElementById('results-grid');
+
+        function fillExample(idx) {
+            const ex = EXAMPLES[idx];
+            if (!ex) return;
+            textArea.value = ex.text;
+        }
+        document.querySelectorAll('.chip').forEach(btn => {
+            btn.addEventListener('click', () => fillExample(parseInt(btn.dataset.idx, 10)));
+        });
+
+        function modelMeta(key) {
+            return MODELS.find(m => m.key === key);
+        }
+
+        function buildBars(probabilities) {
+            const rows = Object.entries(probabilities).map(([cls, p]) => {
+                const pct = (p * 100).toFixed(1);
+                return `
+                <div class="bar-row">
+                    <span class="bar-name">${cls}</span>
+                    <div class="bar-track"><div class="bar-fill bar-${cls}" style="width:${pct}%"></div></div>
+                    <span class="bar-pct">${pct}%</span>
+                </div>`;
+            }).join('');
+            return `<div class="bars">${rows}</div>`;
+        }
+
+        function buildCard(key, result) {
+            const meta = modelMeta(key);
+            const card = document.createElement('div');
+            card.className = 'model-card';
+            card.dataset.key = key;
+
+            if (result.error) {
+                card.innerHTML = `
+                    <div class="model-card-header">
+                        <span class="model-name">${meta ? meta.name : key}</span>
+                    </div>
+                    <div class="model-error">${result.error}</div>`;
+                return card;
+            }
+
+            const translatedTag = result.used_translation ? '<span class="tag tag-translated">uses translation</span>' : '<span class="tag tag-native">direct Gujarati</span>';
+
+            card.innerHTML = `
+                <div class="model-card-header">
+                    <span class="model-name">${result.model_name}</span>
+                    <span class="model-acc">${result.test_accuracy}</span>
+                </div>
+                <div class="model-tags">
+                    ${translatedTag}
+                    <span class="tag tag-dataset">${result.dataset}</span>
+                    <span class="tag tag-time">&#9201; ${result.inference_ms} ms</span>
+                </div>
+                <div class="sentiment-label ${result.sentiment}">${result.sentiment.toUpperCase()} (${(result.confidence * 100).toFixed(1)}%)</div>
+                ${buildBars(result.probabilities)}
+                <button type="button" class="explain-btn" data-key="${key}">Why?</button>
+                <div class="explain-status" hidden></div>
+                <div class="explain-output" hidden></div>
+            `;
+            return card;
+        }
+
+        async function predict() {
+            const text = textArea.value.trim();
+            if (!text) return;
+
+            predictBtn.disabled = true;
+            predictBtn.textContent = 'Predicting...';
+            resultsGrid.innerHTML = '';
+            translationCard.hidden = true;
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text, model_type: modelSelect.value })
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    resultsGrid.innerHTML = `<div class="model-error">${data.error}</div>`;
+                    return;
+                }
+
+                translationCard.hidden = false;
+                translationText.textContent = data.english_translation;
+                translationTime.textContent = `(${data.translation_ms} ms)`;
+
+                resultsGrid.className = Object.keys(data.results).length > 1 ? 'results-grid grid-multi' : 'results-grid';
+                for (const [key, result] of Object.entries(data.results)) {
+                    resultsGrid.appendChild(buildCard(key, result));
+                }
+
+                document.querySelectorAll('.explain-btn').forEach(btn => {
+                    btn.addEventListener('click', () => explainOne(btn.dataset.key, text));
+                });
+            } catch (err) {
+                resultsGrid.innerHTML = `<div class="model-error">Error contacting server: ${err}</div>`;
+            } finally {
+                predictBtn.disabled = false;
+                predictBtn.textContent = 'Predict';
+            }
+        }
+
+        async function explainOne(key, text) {
+            const card = resultsGrid.querySelector(`.model-card[data-key="${key}"]`);
+            if (!card) return;
+            const statusEl = card.querySelector('.explain-status');
+            const outputEl = card.querySelector('.explain-output');
+            const btn = card.querySelector('.explain-btn');
+
+            btn.disabled = true;
+            statusEl.hidden = false;
+            statusEl.textContent = 'Computing explanation...';
+            outputEl.hidden = true;
+
+            try {
+                const response = await fetch('/explain', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text, model_type: key })
+                });
+                const data = await response.json();
+                const result = data.results ? data.results[key] : { error: data.error };
+
+                if (result.error) {
+                    statusEl.textContent = result.error;
+                    return;
+                }
+                statusEl.hidden = true;
+                outputEl.hidden = false;
+                const langTag = result.explained_language === 'english' ? '(explaining the English translation)' : '(explaining the Gujarati text)';
+                outputEl.innerHTML = `<div class="explain-lang">${langTag}</div>${result.html}`;
+            } catch (err) {
+                statusEl.textContent = 'Error: ' + err;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        predictBtn.addEventListener('click', predict);
+    </script>
+</body>
+</html>

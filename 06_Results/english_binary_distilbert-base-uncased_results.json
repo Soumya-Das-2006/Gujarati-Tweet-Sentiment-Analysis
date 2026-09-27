@@ -1,0 +1,46 @@
+{
+  "model_name": "distilbert-base-uncased",
+  "task": "binary English sentiment (Sentiment140)",
+  "test_accuracy": 0.8383,
+  "test_report": {
+    "negative": {
+      "precision": 0.8217002662609357,
+      "recall": 0.8641,
+      "f1-score": 0.8423669331253656,
+      "support": 10000.0
+    },
+    "positive": {
+      "precision": 0.8567060312104597,
+      "recall": 0.8125,
+      "f1-score": 0.8340176555122152,
+      "support": 10000.0
+    },
+    "accuracy": 0.8383,
+    "macro avg": {
+      "precision": 0.8392031487356977,
+      "recall": 0.8383,
+      "f1-score": 0.8381922943187904,
+      "support": 20000.0
+    },
+    "weighted avg": {
+      "precision": 0.8392031487356977,
+      "recall": 0.8383,
+      "f1-score": 0.8381922943187903,
+      "support": 20000.0
+    }
+  },
+  "test_confusion_matrix": [
+    [
+      8641,
+      1359
+    ],
+    [
+      1875,
+      8125
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "negative",
+    "positive"
+  ]
+}

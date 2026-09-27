@@ -1,0 +1,15 @@
+{
+    "source_filename": "TweetsData_English.csv",
+    "source_file_size_mb": 227.75081825256348,
+    "source_row_count": 1600000,
+    "source_columns": [
+        "target",
+        "ids",
+        "date",
+        "flag",
+        "user",
+        "english_tweet"
+    ],
+    "source_sha256": "73036a6e44488ee452757eafa5d56563a2353d9fd8b53c28502d0ec913108c78",
+    "processing_start_time": "2026-09-14 09:12:25"
+}

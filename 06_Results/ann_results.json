@@ -1,0 +1,60 @@
+{
+  "stage1_sentiment140_val_accuracy": 0.8295411177933648,
+  "stage2_gujarati_val_accuracy": 0.5446756425948592,
+  "test_accuracy": 0.5207823960880196,
+  "test_report": {
+    "negative": {
+      "precision": 0.6202185792349727,
+      "recall": 0.5135746606334841,
+      "f1-score": 0.5618811881188119,
+      "support": 442.0
+    },
+    "neutral": {
+      "precision": 0.4594594594594595,
+      "recall": 0.5467836257309941,
+      "f1-score": 0.4993324432576769,
+      "support": 342.0
+    },
+    "positive": {
+      "precision": 0.26666666666666666,
+      "recall": 0.35294117647058826,
+      "f1-score": 0.3037974683544304,
+      "support": 34.0
+    },
+    "accuracy": 0.5207823960880196,
+    "macro avg": {
+      "precision": 0.4487815684536996,
+      "recall": 0.4710998209450222,
+      "f1-score": 0.4550036999103064,
+      "support": 818.0
+    },
+    "weighted avg": {
+      "precision": 0.5383110193443273,
+      "recall": 0.5207823960880196,
+      "f1-score": 0.5250028052160037,
+      "support": 818.0
+    }
+  },
+  "test_confusion_matrix": [
+    [
+      227,
+      203,
+      12
+    ],
+    [
+      134,
+      187,
+      21
+    ],
+    [
+      5,
+      17,
+      12
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "negative",
+    "neutral",
+    "positive"
+  ]
+}

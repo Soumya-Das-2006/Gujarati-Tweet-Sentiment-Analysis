@@ -1,0 +1,18 @@
+===== GujaratiTweetsData.csv =====
+shape: (27481, 4)
+columns: ['textID', 'text', 'sentiment', 'tranlate_text']
+       textID                                           text sentiment                                    tranlate_text
+0  cb774db0d1            I`d have responded, if I were going   neutral                જો હું જાઉં તો મેં જવાબ આપ્યો હોત
+1  549e992a42  Sooo SAD I will miss you here in San Diego!!!  negative  Sooo SAD હું તમને અહીં સાન ડિએગોમાં યાદ કરીશ!!!
+2  088c60f138                      my boss is bullying me...  negative                     મારા બોસ મને ત્રાસ આપે છે...
+
+
+===== Cleaned_GujaratiTweets.csv =====
+shape: (27059, 2)
+columns: ['sentiment', 'tranlate_text']
+  sentiment            tranlate_text
+0   neutral    જ હ જઉ ત મ જવબ આપય હત
+1  negative  હ તમન અહ સન ડએગમ યદ કરશ
+2  negative        મર બસ મન તરસ આપ છ
+
+

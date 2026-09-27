@@ -1,0 +1,10 @@
+shape: (27481, 4)
+sentiment
+neutral     11118
+positive     8582
+negative     7781
+Name: count, dtype: int64
+nulls: {'textID': 0, 'text': 1, 'sentiment': 0, 'tranlate_text': 0}
+dup translate_text: 153
+dup text (english): 31
+avg translate len (chars): 70.63436556166079

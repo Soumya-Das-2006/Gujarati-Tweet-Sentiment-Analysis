@@ -1,0 +1,13 @@
+   0  ...                                                  5
+0  0  ...  @switchfoot http://twitpic.com/2y1zl - Awww, t...
+1  0  ...  is upset that he can't update his Facebook by ...
+2  0  ...  @Kenichan I dived many times for the ball. Man...
+3  0  ...    my whole body feels itchy and like its on fire 
+4  0  ...  @nationwideclass no, it's not behaving at all....
+
+[5 rows x 6 columns]
+
+shape sample: (200000, 6)
+0
+0    200000
+Name: count, dtype: int64

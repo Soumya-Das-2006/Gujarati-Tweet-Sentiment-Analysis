@@ -1,0 +1,337 @@
+:root {
+    --gujarati-font: 'Noto Sans Gujarati', 'Nirmala UI', 'Shruti', sans-serif;
+    --positive: #1e8e3e;
+    --negative: #d33;
+    --neutral: #6b7280;
+    --border: #d8dce1;
+    --bg: #f5f6f8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    background: var(--bg);
+    margin: 0;
+    padding: 30px 16px;
+    display: flex;
+    justify-content: center;
+}
+
+.page {
+    max-width: 980px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    width: 100%;
+    padding: 28px 32px;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+h1 {
+    font-size: 22px;
+    margin: 0 0 4px;
+}
+
+.subtitle {
+    color: #666;
+    margin: 0 0 20px;
+    font-size: 14px;
+}
+
+.field-label {
+    display: block;
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    height: 110px;
+    padding: 12px;
+    font-family: var(--gujarati-font);
+    font-size: 17px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    resize: vertical;
+    margin-bottom: 10px;
+}
+
+.examples-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.examples-row .field-label {
+    margin: 0;
+}
+
+.chip {
+    border: 1px solid var(--border);
+    background: #fafafa;
+    border-radius: 999px;
+    padding: 5px 14px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.chip:hover { background: #eee; }
+.chip-positive { border-color: var(--positive); color: var(--positive); }
+.chip-negative { border-color: var(--negative); color: var(--negative); }
+.chip-neutral { border-color: var(--neutral); color: var(--neutral); }
+
+.button-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+button.primary-btn, button.secondary-btn {
+    padding: 10px 22px;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.primary-btn {
+    background: #2563eb;
+    color: #fff;
+}
+
+.primary-btn:disabled { background: #94a9d6; cursor: default; }
+
+.secondary-btn {
+    background: #fff;
+    border: 1px solid var(--border) !important;
+    color: #333;
+}
+
+.secondary-btn:disabled { color: #aaa; cursor: not-allowed; }
+
+.translation-card {
+    margin-top: 4px;
+    margin-bottom: 20px;
+    padding: 14px 16px;
+    background: #f0f4ff;
+    border: 1px solid #c7d6fb;
+    border-radius: 8px;
+}
+
+.translation-label {
+    font-size: 12px;
+    color: #4759b3;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.translation-label span {
+    font-weight: 400;
+    color: #7a86c9;
+}
+
+.translation-text {
+    font-size: 15px;
+    color: #1f2937;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.results-grid.grid-multi {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 720px) {
+    .results-grid.grid-multi { grid-template-columns: 1fr; }
+}
+
+.model-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: #fcfcfd;
+}
+
+.model-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+}
+
+.model-name {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.model-acc {
+    font-size: 13px;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.model-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eef0f3;
+    color: #555;
+}
+
+.tag-translated { background: #fff3e0; color: #b26a00; }
+.tag-native { background: #e8f5e9; color: #1e8e3e; }
+.tag-dataset { background: #eef0f3; color: #555; }
+.tag-time { background: #f3e8fd; color: #7c3aed; }
+
+.model-error {
+    color: var(--negative);
+    font-size: 13px;
+    padding: 8px 0;
+}
+
+.sentiment-label {
+    font-weight: 700;
+    font-size: 17px;
+    margin-bottom: 12px;
+}
+
+.sentiment-label.positive { color: var(--positive); }
+.sentiment-label.negative { color: var(--negative); }
+.sentiment-label.neutral { color: var(--neutral); }
+
+.explain-btn {
+    margin-top: 10px;
+    padding: 6px 16px;
+    font-size: 13px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+}
+
+.explain-btn:disabled { color: #aaa; cursor: not-allowed; }
+
+.explain-lang {
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 6px;
+}
+
+.legend-card {
+    font-size: 13px;
+}
+
+.legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.legend-row:last-child { border-bottom: none; }
+
+.legend-name { font-weight: 600; min-width: 200px; }
+.legend-badge { color: #2563eb; font-weight: 600; }
+.legend-dataset { color: #777; font-size: 12px; }
+.legend-classes { color: #999; font-size: 12px; }
+.legend-missing { color: var(--negative); font-size: 12px; }
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.bar-name {
+    width: 60px;
+    color: #555;
+}
+
+.bar-track {
+    flex: 1;
+    background: #eee;
+    border-radius: 4px;
+    height: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.bar-positive { background: var(--positive); }
+.bar-negative { background: var(--negative); }
+.bar-neutral { background: var(--neutral); }
+
+.bar-pct {
+    width: 50px;
+    text-align: right;
+    color: #555;
+}
+
+.explain-status {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #777;
+    font-style: italic;
+}
+
+.explain-output {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 8px;
+    font-family: var(--gujarati-font);
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.lime-word {
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: #888;
+}

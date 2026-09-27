@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Third-party cloned resource (clone separately - see README)
+indic_nlp_resources/
+
+# Model training checkpoints and weight files - far too large for git.
+# Regenerate by re-running the training scripts in 03_Project/src/.
+**/checkpoints/
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# Oversized classical-ML artifacts (Random Forest joblib files run 400MB+
+# because of unbounded tree depth over a 20k-feature TF-IDF matrix).
+# Regenerate via 03_Project/src/classical_ml.py.
+01_Model/classical/random_forest.joblib
+01_Model/classical/best_model.joblib
+06_Results/random_forest.joblib
+
+# Large raw / intermediate datasets - see README for source and regeneration steps.
+03_Project/data/raw/
+03_Project/data/processed_ann/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp

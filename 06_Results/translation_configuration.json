@@ -1,0 +1,6 @@
+{
+    "device": "cpu",
+    "gpu_count": 0,
+    "model": "ai4bharat/indictrans2-en-indic-1B",
+    "semantic_model": "sentence-transformers/LaBSE"
+}
